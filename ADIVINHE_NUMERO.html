@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+
+	<h1>DESCUBRA O NÚMERO</h1>
+
+	NÚMERO: <input type="text" id="num">
+
+	<input type="button" value="APOSTAR" id="apost" onclick="apostar();">
+	<input type="button" value="JOGAR NOVAMENTE" id="jogar" onclick="jogar_novamente();">
+
+	<h3> CHANCHES: 
+		<span id="chances">6
+		</span> 
+	</h3>
+	<h3> ERROS: 
+		<span id="err">0
+		</span> 
+	</h3> 
+	<h3> NÚMEROS JOGADOS:
+		<span id="numJogados">
+		</span>
+	</h3> 
+	<h3 id="dicass" class="italico">Dica: É um número entre 1 e 100</h3>
+
+	<script type="text/javascript">
+		jogar.disabled = true;
+		alert("A OPÇÃO JOGAR NOVAMENTE SÓ ABILITA SE ACERTAR OU ERRAR TUDO!!");
+		var erros = [];
+		var chances = 6;
+		var sorteado = Math.floor(Math.random() * 100) + 1;
+		var dicass = document.getElementById("dicass");
+		var err = document.getElementById("err"); 
+		var numErros;
+		var numChances;
+
+		function apostar() {
+			var numero = document.getElementById("num").value;  
+		 	if (numero <= 0 || numero > 100 || isNaN(numero)) { 
+		 		alert("Informe um número válido...");
+		 		num.value = "";
+		 		return; 
+			}
+
+			else if (numero == sorteado){
+				alert("Parabéns!! Você Acertou!!!"); 
+				apost.disabled = true; 
+				jogar.disabled = false; 
+				document.getElementById("dicass").innerHTML ="Parabéns!! Número sorteado: " + sorteado;
+				num.value = "";
+			}
+			else { 
+			 	if (erros.indexOf(numero) >=0) { 
+			 		alert("Você já apostou o número " + numero + ". Tente outro...");
+			 		num.value = "";
+			 	}
+			 	else { 
+		 			erros.push(numero);
+		 			numErros = erros.length;
+		 			numChances = chances - numErros;
+		 			document.getElementById("err").innerHTML = numErros;
+		 			document.getElementById("numJogados").innerHTML = " (" + erros.join(", ") + ")";
+		 			document.getElementById("chances").innerHTML = numChances;
+		 			 if (numChances == 0) { 
+				    	alert("Suas chances acabaram..."); 
+				    	apost.disabled = true; 
+				    	jogar.disabled = false;
+				    	document.getElementById("dicass").innerHTML = "Game Over!! Número Sorteado: " + sorteado;
+				    	num.value = "";
+				    } 
+				    else { 
+				     	if (numero > sorteado) {
+				     		document.getElementById("dicass").innerHTML = "Dica: Tente um número menor que " + numero;
+				     		num.value = "";
+				     	}
+				     	else if (numero < sorteado) {
+				     		document.getElementById("dicass").innerHTML = "Dica: Tente um número maior que " + numero;
+				     		num.value = "";
+				     	}
+				     	 
+				    } 
+		     
+		 		}
+
+			}
+
+		}
+		function jogar_novamente() { 
+		  	location.reload();  
+		}
+
+	</script>
+
+</body>
+</html>
